@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "binary" // opcional, mas recomendado no teu caso
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  ratings   Rating[]
+
+  @@map("users")
+}
+
+model Rating {
+  id          Int      @id @default(autoincrement())
+
+  userId      Int      @default(1) @map("user_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  tmdbMovieId Int      @map("tmdb_movie_id")
+  rating      Int
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt      @map("updated_at")
+
+  @@index([userId])
+  @@index([tmdbMovieId])
+  @@unique([userId, tmdbMovieId], name: "uq_user_movie_rating")
+
+  @@map("ratings")
+}
