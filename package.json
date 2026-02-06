@@ -5,7 +5,7 @@
   "scripts": {
     "build": "prisma generate && nest build",
     "start:prod": "node dist/main",
-    "render-start": "prisma migrate deploy && npm run start:prod"
+    "render-start": "npm run start:prod"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
